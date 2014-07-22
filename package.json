@@ -1,0 +1,14 @@
+{
+  "name": "SimpleRest",
+  "version": "0.0.1",
+  "description": "Restful server for my andriod app",
+  "main": "server.js",
+  "author": "Sam",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "ejs": "^1.0.0",
+    "express": "^4.6.1",
+    "mongoose": "^3.8.13",
+    "nodemon": "^1.2.1"
+  }
+}
