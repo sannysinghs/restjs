@@ -1,14 +1,16 @@
 
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/todo');
+mongoose.connect('mongodb://localhost/images');
 
 var TaskSchema = new mongoose.Schema({
 	title : String,
-	status : Boolean
+	desc : String,
+	file : String,
+	date : Date
 });
 
 
-var db = mongoose.model("tasks",TaskSchema);
+var db = mongoose.model("images",TaskSchema);
 
 
 exports.findAll = function(callback){
@@ -36,7 +38,9 @@ exports.save = function(task,callback){
 
 	var newtask = new db({
 		title : task.title,
-		status : task.status
+		desc : task.desc,
+		file : task.file,
+		date : new Date()
 	});
 
 	newtask.save(function(err){
@@ -63,13 +67,13 @@ exports.remove = function(id,callback){
 },
 
 exports.update = function(id,task,callback){
-	console.log(id);
 	db.findById(id,function(err,result){
 		if (err) {
 			callback(false);
 		}else{
 			result.title = task.title;
-			result.status = task.status
+			result.desc = task.desc;
+			result.file = task.file;
 			result.save(function(err,result){
 				if (err) {
 					callback(false);

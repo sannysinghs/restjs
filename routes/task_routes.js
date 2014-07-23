@@ -5,11 +5,12 @@ module.exports = function(app){
 	
 	
 	app.get('/',function(req,res){
-		res.send('testing');
+		
+		res.sendFile("index.html");
 	
 	});
 
-	app.get("/tasks",function(req,res){
+	app.get("/memos",function(req,res){
 			
 			try{
 				TaskController.findAll(function(result){	
@@ -20,7 +21,7 @@ module.exports = function(app){
 			}
 	});
 
-	app.get("/tasks/:id",function(req,res){
+	app.get("/memos/:id",function(req,res){
 		var id = req.params.id;
 		try{
 			var task = TaskController.find(id,function(result){
@@ -32,7 +33,7 @@ module.exports = function(app){
 		}
 	});
 
-	app.delete("/tasks/:id",function(req,res,next){
+	app.delete("/memos/:id",function(req,res,next){
 		var id = req.params.id;
 		try{
 			TaskController.remove(id,function(result){
@@ -43,14 +44,16 @@ module.exports = function(app){
 		}
 	});
 
-	app.post("/tasks",function(req,res,next){
+	app.post("/memos",function(req,res,next){
 		
 		var task = req.body;
+		var files = req.files;
 		
 		try {
 			TaskController.save({ 
 				title : task.title || "Default Title",
-				status : task.status || false
+				file : files.image.name,
+				desc : task.desc
 			},function(result){
 				res.send(200);	
 			});
@@ -60,9 +63,10 @@ module.exports = function(app){
 		
 	});
 
-	app.put("/tasks/:id",function(req,res){
+	app.put("/memos/:id",function(req,res){
 		var id = req.params.id;
 		var task = req.body;
+		task.file = req.files.image.name;
 		try{
 			TaskController.update(id,task,function(result){
 				res.send(200);
